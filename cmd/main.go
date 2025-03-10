@@ -1,6 +1,8 @@
 package main
 
 import (
+	"regulaclient/pkg"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/canvas"
@@ -21,6 +23,7 @@ type scan struct {
 }
 
 const pathPhoto string = "Avatar.jpg"
+const pathIcon string = "Icon.png"
 
 var (
 	L      *sl.Logs
@@ -45,20 +48,25 @@ func main() {
 	w := &form{
 		a.NewWindow("Regual Client VFS"),
 	}
-	w.Resize(fyne.NewSize(800, 600))
+	w.Resize(fyne.NewSize(900, 700))
+	w.SetIcon(canvas.NewImageFromFile(pathIcon).Resource)
 
-	start := widget.NewButton("Start Scan", func() {
+	bConnect := widget.NewButton("Connect", func() {
+		w.ConnectDevice()
+	})
+	bConnect.Resize(fyne.Size{Width: 150, Height: 10})
+	bDisconnect := widget.NewButton("Disconnect", func() {
+		w.DisconnectDevice()
+	})
+	bDisconnect.Resize(fyne.Size{Width: 150, Height: 10})
+	bDisconnect.Hide()
+
+	bScan := widget.NewButton("Start Scan", func() {
 		w.UploadPhoto()
 	})
-	start.Resize(fyne.Size{Width: 150, Height: 10})
+	bScan.Resize(fyne.Size{Width: 150, Height: 10})
 
-	// w.SetContent(container.NewVBox(
-	// 	start,
-	// 	//box,
-	// 	//photoList,
-	// ))
-
-	table := widget.NewTable(
+	tableH := widget.NewTable(
 		func() (int, int) {
 			rows := 1
 			cols := 3
@@ -89,34 +97,82 @@ func main() {
 			// img = canvas.NewImageFromImage(res)
 		})
 
-	table.SetColumnWidth(0, 200)
-	table.SetColumnWidth(1, 200)
-	table.SetColumnWidth(2, 200)
+	tableV := widget.NewTable(
+		func() (int, int) {
+			rows := 2
+			cols := 1
+			return rows, cols
+		},
 
-	w.SetContent(container.NewStack(start, table))
+		func() fyne.CanvasObject {
+			i := canvas.NewImageFromFile(pathPhoto)
+			i.FillMode = canvas.ImageFillOriginal
+			i.SetMinSize(fyne.NewSize(100, 80))
+			return i
+		},
+
+		func(id widget.TableCellID, c fyne.CanvasObject) {
+			// img := c.(*canvas.Image)
+			// col, row := id.Col, id.Row
+			// // Data row
+			// acc := scans[row-1]
+			// var res image.Image
+			// switch col {
+			// case 0:
+			// 	res = acc.ir.Image
+			// case 1:
+			// 	res = acc.wight.Image
+			// case 2:
+			// 	res = acc.uv.Image
+			// }
+
+			// img = canvas.NewImageFromImage(res)
+		})
+
+	tableH.Resize(fyne.NewSize(600, 200))
+	tableH.SetRowHeight(0, 200)
+	tableH.SetColumnWidth(0, 200)
+	tableH.SetColumnWidth(1, 200)
+	tableH.SetColumnWidth(2, 200)
+
+	w.SetContent(
+		container.NewVBox(
+			container.NewHBox(bConnect, bDisconnect, bScan),
+			container.NewHBox(tableH, tableV),
+		),
+	)
 	w.ShowAndRun()
 }
 
 func (w *form) UploadPhoto() (err error) {
 	// pwd, _ := os.Getwd()
 	// path := filepath.Join(filepath.Dir(pwd), "Avatar.jpg")
-	path := "./Avatar.jpg"
-	sl.L.Info("%v", path)
+	sl.L.Info("%v", pathPhoto)
 	//image1 = &canvas.Image{File: "Avatar.jpg", FillMode: canvas.ImageFillOriginal}
 	//image1 = canvas.NewImageFromFile(path)
-	image1.File = path
+	image1.File = pathPhoto
 	image1.SetMinSize(fyne.NewSize(300, 200))
 	//image1.Position()
 	image1.Move(fyne.Position{X: 0, Y: 0})
 	sl.L.Info("%v", image1.Position())
 	//image1.ScaleMode = canvas.ImageScalePixels
-	image2.File = path
+	image2.File = pathPhoto
 	image2.SetMinSize(fyne.NewSize(300, 200))
 	image2.Move(fyne.Position{X: 0, Y: 100})
 	sl.L.Info("%v", image2.Position())
-	image3.File = path
+	image3.File = pathPhoto
 	image3.SetMinSize(fyne.NewSize(300, 200))
 	image3.Move(fyne.Position{X: 200, Y: 0})
 	sl.L.Info("%v", image3.Position())
+	return
+}
+
+func (w *form) ConnectDevice() (err error) {
+	pkg.Initialize()
+	return
+}
+
+func (w *form) DisconnectDevice() (err error) {
+	pkg.Free()
 	return
 }
