@@ -9,8 +9,11 @@ import (
 	sl "github.com/Averianov/cisystemlog"
 )
 
-const pathPhoto string = "Avatar.jpg"
-const pathIcon string = "Icon.png"
+const (
+	PATH_PHOTO  string = "Avatar.jpg"
+	PATH_ICON   string = "Icon.png"
+	WINDOW_NAME string = "Regual Client VFS"
+)
 
 var (
 	Image1 *canvas.Image
@@ -44,9 +47,9 @@ func InitForm() (err error) {
 
 	a := app.New()
 	w := &Form{
-		a.NewWindow("Regual Client VFS"),
+		a.NewWindow(WINDOW_NAME),
 	}
-	icon, err := fyne.LoadResourceFromPath(pathIcon)
+	icon, err := fyne.LoadResourceFromPath(PATH_ICON)
 	if err != nil {
 		sl.L.Alert("%v", err)
 	}
@@ -76,7 +79,7 @@ func InitForm() (err error) {
 		},
 
 		func() fyne.CanvasObject {
-			i := canvas.NewImageFromFile(pathPhoto)
+			i := canvas.NewImageFromFile(PATH_PHOTO)
 			i.FillMode = canvas.ImageFillContain
 			i.SetMinSize(fyne.NewSize(200, 100))
 			return i
@@ -116,9 +119,9 @@ func InitForm() (err error) {
 
 func (w *Form) UploadPhoto() (err error) {
 	//sl.L.Info("%v", pathPhoto)
-	Image1.File = pathPhoto
-	Image2.File = pathPhoto
-	Image3.File = pathPhoto
+	Image1.File = PATH_PHOTO
+	Image2.File = PATH_PHOTO
+	Image3.File = PATH_PHOTO
 
 	Image1.SetMinSize(fyne.NewSize(200, 150))
 	Image1.Move(fyne.Position{X: 0, Y: 50})

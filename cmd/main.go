@@ -3,6 +3,7 @@ package main
 import (
 	"regulaclient/pkg/form"
 	"regulaclient/pkg/usedll"
+	"unsafe"
 
 	sl "github.com/Averianov/cisystemlog"
 )
@@ -21,8 +22,13 @@ func init() {
 func main() {
 	usedll.GetVersion()
 	usedll.InitializeDevice()
-	//pkg.SetCallbackFunc(pkg.ResultFunc, pkg.NotifyFunc)
-	usedll.ExecuteCommand(&usedll.RPRM_Command_Device_Count)
+	usedll.SetCallbackFunc(usedll.ResultFunc, usedll.NotifyFunc)
+	// sl.L.Info("%v", usedll.RPRM_Command_Device_Count)
+
+	var deviceCount int32
+	usedll.ExecuteCommand(&usedll.RPRM_Command_Device_Count, 0, uintptr(unsafe.Pointer(&deviceCount)))
+	sl.L.Info("deviceCount: %v", deviceCount)
+
 	defer usedll.FreeDevice()
 
 	form.InitForm()

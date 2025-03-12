@@ -14,6 +14,8 @@ var (
 	initialize      *syscall.LazyProc
 	executeCommand  *syscall.LazyProc
 	setCallbackFunc *syscall.LazyProc
+
+	// windowHandler syscall.Handle
 )
 
 const (
@@ -31,54 +33,84 @@ func init() {
 	initialize = Passpr40.NewProc("_Initialize")
 	executeCommand = Passpr40.NewProc("_ExecuteCommand")
 	setCallbackFunc = Passpr40.NewProc("_SetCallbackFunc")
+
+	// var err error
+	// windowHandler, err = FindWindow(form.WINDOW_NAME)
+	// if err != nil {
+	// 	sl.L.Alert("%v", err)
+	// }
 }
 
 // typedef long    (*_InitializeFunc)(void *lpParams, HWND hParent);
 func InitializeDevice() (err error) {
-	var ret1, ret2 uintptr
-	ret1, ret2, err = initialize.Call()
+	var hwnd uintptr
+	hwnd, err = GetHWND()
 	if err != nil {
 		sl.L.Alert("%v", err)
 	}
-	sl.L.Info("%v, %v", ret1, ret2)
-	return
-}
 
-// typedef long    (*_ExecuteCommandFunc)( long command, void *params, void *result );
-func ExecuteCommand(command *int32) (err error) {
 	var ret1, ret2 uintptr
-	ret1, ret2, err = executeCommand.Call(
-		uintptr(unsafe.Pointer(command)),
+	ret1, ret2, err = initialize.Call(
+		0,    // void *lpParams
+		hwnd, // HWND hParent
 	)
-	if err != nil && err.Error() != "The operation completed successfully." {
+	if ret1 == 0 || ret1 == 1 || err.Error() == "The operation completed successfully." {
+		sl.L.Info("%v", err)
+	} else {
 		sl.L.Alert("%v", err)
 	}
-	sl.L.Info("executeCommand:%v, %v", ret1, ret2)
+
+	sl.L.Info("%v, %v", ret1, ret2)
 	return
 }
 
 // typedef void    (*_SetCallbackFuncFunc)( ResultReceivingFunc f1, NotifyFunc f2 );
 func SetCallbackFunc(resultFunc func(*uint32, *uint32, *uint32),
 	notifyFunc func(uintptr, uintptr)) (err error) {
-
+	resultf := resultFunc
+	notifyf := notifyFunc
 	var ret1, ret2 uintptr
 	ret1, ret2, err = setCallbackFunc.Call(
-	// uintptr(unsafe.Pointer(resultFunc)),
-	// uintptr(unsafe.Pointer(notifyFunc)),
+		uintptr(unsafe.Pointer(&resultf)),
+		uintptr(unsafe.Pointer(&notifyf)),
 	)
-	if err != nil && err.Error() != "The operation completed successfully." {
+	if ret1 == 0 || ret1 == 1 || err.Error() == "The operation completed successfully." {
+		sl.L.Info("%v", err)
+	} else {
 		sl.L.Alert("%v", err)
 	}
-	sl.L.Info("libVersion:%v, %v", ret1, ret2)
+
+	sl.L.Info("SetCallbackFunc:%v, %v", ret1, ret2)
+	return
+}
+
+// typedef long    (*_ExecuteCommandFunc)( long command, void *params, void *result );
+func ExecuteCommand(command *int32, param, result uintptr) (err error) {
+	var ret1, ret2 uintptr
+	ret1, ret2, err = executeCommand.Call(
+		uintptr(unsafe.Pointer(command)),
+		param,
+		result,
+	)
+	if ret1 == 0 || ret1 == 1 || err.Error() == "The operation completed successfully." {
+		sl.L.Info("%v", err)
+	} else {
+		sl.L.Alert("%v", err)
+	}
+
+	sl.L.Info("executeCommand:%v, %v", ret1, ret2)
 	return
 }
 
 func FreeDevice() (err error) {
 	var ret1, ret2 uintptr
 	ret1, ret2, err = free.Call()
-	if err != nil && err.Error() != "The operation completed successfully." {
+	if ret1 == 0 || ret1 == 1 || err.Error() == "The operation completed successfully." {
+		sl.L.Info("%v", err)
+	} else {
 		sl.L.Alert("%v", err)
 	}
+
 	sl.L.Info("free:%v, %v", ret1, ret2)
 	return
 }
@@ -86,20 +118,24 @@ func FreeDevice() (err error) {
 func GetVersion() (err error) {
 	var ret1, ret2 uintptr
 	ret1, ret2, err = libVersion.Call()
-	if err != nil && err.Error() != "The operation completed successfully." {
+	if ret1 == 0 || ret1 == 1 || err.Error() == "The operation completed successfully." {
+		sl.L.Info("%v", err)
+	} else {
 		sl.L.Alert("%v", err)
 	}
+
 	sl.L.Info("libVersion:%v, %v", ret1, ret2)
 	return
 }
 
-// typedef void (REGULA_STDCALL *ResultReceivingFunc)
-// ( TResultContainer *result, uint32_t *PostAction, uint32_t *PostActionParameter );
+// typedef void (REGULA_STDCALL *ResultReceivingFunc) ( TResultContainer *result, uint32_t *PostAction, uint32_t *PostActionParameter );
+// extern void (REGULA_STDCALL *ResultReceivingFunc) ( TResultContainer *result, uint32_t *PostAction, uint32_t *PostActionParameter );
 func ResultFunc(result *uint32, postAction, postActionParam *uint32) {
 	sl.L.Warning("ResultFunc: %v, %v, %v", result, postAction, postActionParam)
 }
 
 // typedef void (REGULA_STDCALL *NotifyFunc)(intptr_t code, intptr_t value);
+// extern void (REGULA_STDCALL *NotifyFunc)(intptr_t code, intptr_t value);
 func NotifyFunc(code, value uintptr) {
 	sl.L.Info("NotifyFunc: %v, %v", code, value)
 
