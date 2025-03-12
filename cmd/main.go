@@ -22,7 +22,7 @@ func init() {
 func main() {
 	usedll.GetVersion()
 	usedll.InitializeDevice()
-	usedll.SetCallbackFunc(usedll.ResultFunc, usedll.NotifyFunc)
+	usedll.SetCallbackFunc(usedll.MyResultReceivingFunc, usedll.MyNotifyFunc)
 
 	// var deviceCount int32
 	// usedll.ExecuteCommand(&usedll.RPRM_Command_Device_Count, 0, uintptr(unsafe.Pointer(&deviceCount)))

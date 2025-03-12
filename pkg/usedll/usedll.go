@@ -141,13 +141,13 @@ func GetVersion() (err error) {
 
 // typedef void (REGULA_STDCALL *ResultReceivingFunc) ( TResultContainer *result, uint32_t *PostAction, uint32_t *PostActionParameter );
 // extern void (REGULA_STDCALL *ResultReceivingFunc) ( TResultContainer *result, uint32_t *PostAction, uint32_t *PostActionParameter );
-func ResultFunc(result *uint32, postAction, postActionParam *uint32) {
+func MyResultReceivingFunc(result *uint32, postAction, postActionParam *uint32) {
 	sl.L.Warning("ResultFunc: %v, %v, %v", result, postAction, postActionParam)
 }
 
 // typedef void (REGULA_STDCALL *NotifyFunc)(intptr_t code, intptr_t value);
 // extern void (REGULA_STDCALL *NotifyFunc)(intptr_t code, intptr_t value);
-func NotifyFunc(code, value uintptr) {
+func MyNotifyFunc(code, value uintptr) {
 	sl.L.Info("NotifyFunc: %v, %v", code, value)
 
 	// switch notify {
