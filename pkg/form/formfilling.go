@@ -32,8 +32,15 @@ type Form struct {
 
 func InitForm() (err error) {
 	Image1 = &canvas.Image{}
-	Image1 = &canvas.Image{}
-	Image1 = &canvas.Image{}
+	Image2 = &canvas.Image{}
+	Image3 = &canvas.Image{}
+
+	Image1.SetMinSize(fyne.NewSize(200, 150))
+	Image1.Move(fyne.Position{X: 0, Y: 50})
+	Image2.SetMinSize(fyne.NewSize(200, 150))
+	Image2.Move(fyne.Position{X: 200, Y: 50})
+	Image3.SetMinSize(fyne.NewSize(200, 150))
+	Image3.Move(fyne.Position{X: 400, Y: 50})
 
 	a := app.New()
 	w := &Form{
@@ -93,12 +100,6 @@ func InitForm() (err error) {
 			// img = canvas.NewImageFromImage(res)
 		})
 
-	Image1.SetMinSize(fyne.NewSize(200, 150))
-	Image1.Move(fyne.Position{X: 0, Y: 50})
-	Image2.SetMinSize(fyne.NewSize(200, 150))
-	Image2.Move(fyne.Position{X: 200, Y: 50})
-	Image3.SetMinSize(fyne.NewSize(200, 150))
-	Image3.Move(fyne.Position{X: 400, Y: 50})
 	//tableV.SetRowHeight(0, 600)
 	tableV.SetColumnWidth(0, 200)
 	tableV.Resize(fyne.NewSize(200, 600))
