@@ -1,6 +1,9 @@
 package form
 
 import (
+	"regulaclient/pkg/usedll"
+	"unsafe"
+
 	"fyne.io/fyne"
 	"fyne.io/fyne/app"
 	"fyne.io/fyne/canvas"
@@ -57,7 +60,10 @@ func InitForm() (err error) {
 	w.Resize(fyne.NewSize(700, 400))
 
 	bConnect := widget.NewButton("Connect", func() {
-		w.ConnectDevice()
+		//w.ConnectDevice()
+		var deviceCount int32
+		usedll.ExecuteCommand(&usedll.RPRM_Command_Device_Count, 0, uintptr(unsafe.Pointer(&deviceCount)))
+		sl.L.Info("deviceCount: %v", deviceCount)
 	})
 	bConnect.Resize(fyne.Size{Width: 150, Height: 10})
 	bDisconnect := widget.NewButton("Disconnect", func() {
@@ -132,6 +138,10 @@ func (w *Form) UploadPhoto() (err error) {
 	Image3.SetMinSize(fyne.NewSize(200, 150))
 	Image3.Move(fyne.Position{X: 400, Y: 50})
 	sl.L.Info("%v", Image3.Position())
+
+	w.Canvas().Refresh(Image1)
+	w.Canvas().Refresh(Image2)
+	w.Canvas().Refresh(Image3)
 	return
 }
 

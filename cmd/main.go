@@ -23,11 +23,21 @@ func main() {
 	usedll.GetVersion()
 	usedll.InitializeDevice()
 	usedll.SetCallbackFunc(usedll.ResultFunc, usedll.NotifyFunc)
-	// sl.L.Info("%v", usedll.RPRM_Command_Device_Count)
 
-	var deviceCount int32
-	usedll.ExecuteCommand(&usedll.RPRM_Command_Device_Count, 0, uintptr(unsafe.Pointer(&deviceCount)))
-	sl.L.Info("deviceCount: %v", deviceCount)
+	// var deviceCount int32
+	// usedll.ExecuteCommand(&usedll.RPRM_Command_Device_Count, 0, uintptr(unsafe.Pointer(&deviceCount)))
+	// sl.L.Info("deviceCount: %v", deviceCount)
+
+	// var deviceCount int32
+	// usedll.ExecuteCommand(&usedll.RPRM_Command_Device_RefreshList, 0, uintptr(unsafe.Pointer(&deviceCount)))
+	// sl.L.Info("deviceCount: %v", deviceCount)
+
+	// var deviceCount int32 // TRegulaDeviceProperties
+	// usedll.ExecuteCommand(&usedll.RPRM_Command_Device_Features, 0, uintptr(unsafe.Pointer(&deviceCount)))
+	// sl.L.Info("deviceCount: %v", deviceCount)
+
+	var deviceCount int32 = -1
+	usedll.ExecuteCommand(&usedll.RPRM_Command_Device_Connect, uintptr(unsafe.Pointer(&deviceCount)), 0)
 
 	defer usedll.FreeDevice()
 

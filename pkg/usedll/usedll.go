@@ -46,21 +46,32 @@ func InitializeDevice() (err error) {
 	var hwnd uintptr
 	hwnd, err = GetHWND()
 	if err != nil {
-		sl.L.Alert("%v", err)
+		if err.Error() != "The operation completed successfully." {
+			sl.L.Alert("GetHWND: %v", err)
+		} else {
+			sl.L.Debug("GetHWND: %v", err)
+		}
+	}
+	sl.L.Info("GetHWND: %v", hwnd)
+
+	var configPath *uint16
+	configPath, err = syscall.UTF16PtrFromString("RegulaReader.ini")
+	if err != nil {
+		sl.L.Alert("UTF16PtrFromString: %v", err)
 	}
 
 	var ret1, ret2 uintptr
 	ret1, ret2, err = initialize.Call(
-		0,    // void *lpParams
-		hwnd, // HWND hParent
+		uintptr(unsafe.Pointer(configPath)), // 0,    // void *lpParams
+		hwnd,                                // HWND hParent
 	)
 	if ret1 == 0 || ret1 == 1 || err.Error() == "The operation completed successfully." {
-		sl.L.Info("%v", err)
+		sl.L.Info("InitializeDevice: %v", err)
 	} else {
-		sl.L.Alert("%v", err)
+		sl.L.Alert("InitializeDevice: %v", err)
 	}
 
-	sl.L.Info("%v, %v", ret1, ret2)
+	sl.L.Debug("InitializeDevice: %v, %v", ret1, ret2)
 	return
 }
 
@@ -75,12 +86,12 @@ func SetCallbackFunc(resultFunc func(*uint32, *uint32, *uint32),
 		uintptr(unsafe.Pointer(&notifyf)),
 	)
 	if ret1 == 0 || ret1 == 1 || err.Error() == "The operation completed successfully." {
-		sl.L.Info("%v", err)
+		sl.L.Info("SetCallbackFunc: %v", err)
 	} else {
-		sl.L.Alert("%v", err)
+		sl.L.Alert("SetCallbackFunc: %v", err)
 	}
 
-	sl.L.Info("SetCallbackFunc:%v, %v", ret1, ret2)
+	sl.L.Debug("SetCallbackFunc: %v, %v", ret1, ret2)
 	return
 }
 
@@ -93,12 +104,12 @@ func ExecuteCommand(command *int32, param, result uintptr) (err error) {
 		result,
 	)
 	if ret1 == 0 || ret1 == 1 || err.Error() == "The operation completed successfully." {
-		sl.L.Info("%v", err)
+		sl.L.Info("ExecuteCommand %v: %v", *command, err)
 	} else {
-		sl.L.Alert("%v", err)
+		sl.L.Alert("ExecuteCommand %v: %v", *command, err)
 	}
 
-	sl.L.Info("executeCommand:%v, %v", ret1, ret2)
+	sl.L.Debug("executeCommand %v: %v, %v", *command, ret1, ret2)
 	return
 }
 
@@ -106,12 +117,12 @@ func FreeDevice() (err error) {
 	var ret1, ret2 uintptr
 	ret1, ret2, err = free.Call()
 	if ret1 == 0 || ret1 == 1 || err.Error() == "The operation completed successfully." {
-		sl.L.Info("%v", err)
+		sl.L.Info("FreeDevice: %v", err)
 	} else {
-		sl.L.Alert("%v", err)
+		sl.L.Alert("FreeDevice: %v", err)
 	}
 
-	sl.L.Info("free:%v, %v", ret1, ret2)
+	sl.L.Debug("FreeDevice: %v, %v", ret1, ret2)
 	return
 }
 
@@ -119,12 +130,12 @@ func GetVersion() (err error) {
 	var ret1, ret2 uintptr
 	ret1, ret2, err = libVersion.Call()
 	if ret1 == 0 || ret1 == 1 || err.Error() == "The operation completed successfully." {
-		sl.L.Info("%v", err)
+		sl.L.Info("GetVersion: %v", err)
 	} else {
-		sl.L.Alert("%v", err)
+		sl.L.Alert("GetVersion: %v", err)
 	}
 
-	sl.L.Info("libVersion:%v, %v", ret1, ret2)
+	sl.L.Debug("GetVersion: %v, %v", ret1, ret2)
 	return
 }
 
