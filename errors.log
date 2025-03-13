@@ -1,15 +1,17 @@
-2025.03.12_17:36:37 [90m[47musedll.go:133[0m	[96mINFO[0m GetVersion: The operation completed successfully.
-2025.03.12_17:36:37 [90m[47musedll.go:138[0m	[37mDEBG[0m GetVersion: 458757, 715497928880
-2025.03.12_17:36:37 [90m[47musedll.go:52[0m	[37mDEBG[0m GetHWND: The operation completed successfully.
-2025.03.12_17:36:37 [90m[47musedll.go:55[0m	[96mINFO[0m GetHWND: 459678
-2025.03.12_17:36:39 [90m[47musedll.go:69[0m	[96mINFO[0m InitializeDevice: The system cannot find the file specified.
-2025.03.12_17:36:39 [90m[47musedll.go:74[0m	[37mDEBG[0m InitializeDevice: 0, 715497928896
-2025.03.12_17:36:39 [90m[47musedll.go:89[0m	[96mINFO[0m SetCallbackFunc: The operation completed successfully.
-2025.03.12_17:36:39 [90m[47musedll.go:94[0m	[37mDEBG[0m SetCallbackFunc: 0, 824634015768
-2025.03.12_17:36:39 [90m[47musedll.go:107[0m	[96mINFO[0m ExecuteCommand 5: The operation completed successfully.
-2025.03.12_17:36:39 [90m[47musedll.go:112[0m	[37mDEBG[0m executeCommand 5: 26, 715497926928
-2025.03.12_17:36:42 [90m[47mformfilling.go:134[0m	[96mINFO[0m {0 50}
-2025.03.12_17:36:42 [90m[47mformfilling.go:137[0m	[96mINFO[0m {200 50}
-2025.03.12_17:36:42 [90m[47mformfilling.go:140[0m	[96mINFO[0m {400 50}
-2025.03.12_17:36:44 [90m[47musedll.go:120[0m	[96mINFO[0m FreeDevice: The system could not find the environment option that was entered.
-2025.03.12_17:36:44 [90m[47musedll.go:125[0m	[37mDEBG[0m FreeDevice: 0, 715497928896
+2025.03.13_15:03:01 [90m[47mexport.go:28[0m	[96mINFO[0m SetCallbackFunc: The operation completed successfully.
+2025.03.13_15:03:01 [90m[47mexport.go:33[0m	[37mDEBG[0m SetCallbackFunc: 0, 824634015864
+2025.03.13_15:03:01 [90m[47musedll.go:54[0m	[37mDEBG[0m GetHWND: The operation completed successfully.
+2025.03.13_15:03:01 [90m[47musedll.go:57[0m	[96mINFO[0m GetHWND: 198010
+2025.03.13_15:03:02 [90m[47musedll.go:65[0m	[96mINFO[0m InitializeDevice: The system cannot find the file specified.
+2025.03.13_15:03:02 [90m[47musedll.go:70[0m	[37mDEBG[0m InitializeDevice: 0, 586166565456
+2025.03.13_15:03:02 [90m[47musedll.go:109[0m	[96mINFO[0m GetVersion: The operation completed successfully.
+2025.03.13_15:03:02 [90m[47musedll.go:114[0m	[37mDEBG[0m GetVersion: 458757, 586166565440
+2025.03.13_15:03:02 [90m[47musedll.go:83[0m	[96mINFO[0m ExecuteCommand 1: The operation completed successfully.
+2025.03.13_15:03:02 [90m[47musedll.go:88[0m	[37mDEBG[0m executeCommand 1: 26, 586166563488
+2025.03.13_15:03:02 [90m[47mmain.go:60[0m	[96mINFO[0m deviceCount: 0
+2025.03.13_15:03:02 [90m[47musedll.go:83[0m	[96mINFO[0m ExecuteCommand 5: The operation completed successfully.
+2025.03.13_15:03:02 [90m[47musedll.go:88[0m	[37mDEBG[0m executeCommand 5: 26, 586166563488
+2025.03.13_15:03:02 [90m[47musedll.go:83[0m	[96mINFO[0m ExecuteCommand 5: The operation completed successfully.
+2025.03.13_15:03:02 [90m[47musedll.go:88[0m	[37mDEBG[0m executeCommand 5: 26, 586166563488
+2025.03.13_15:03:03 [90m[47musedll.go:96[0m	[96mINFO[0m FreeDevice: The system could not find the environment option that was entered.
+2025.03.13_15:03:03 [90m[47musedll.go:101[0m	[37mDEBG[0m FreeDevice: 0, 586166565456

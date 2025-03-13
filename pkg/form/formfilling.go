@@ -62,7 +62,7 @@ func InitForm() (err error) {
 	bConnect := widget.NewButton("Connect", func() {
 		//w.ConnectDevice()
 		var deviceCount int32
-		usedll.ExecuteCommand(&usedll.RPRM_Command_Device_Count, 0, uintptr(unsafe.Pointer(&deviceCount)))
+		usedll.ExecuteCommand(usedll.RPRM_Command_Device_Count, 0, uintptr(unsafe.Pointer(&deviceCount)))
 		sl.L.Info("deviceCount: %v", deviceCount)
 	})
 	bConnect.Resize(fyne.Size{Width: 150, Height: 10})
