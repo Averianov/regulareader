@@ -1,33 +1,31 @@
 package usedll
 
 /*
-//#cgo LDFLAGS: -L. -lPasspR40
-//#cgo CFLAGS: -I.
+#cgo LDFLAGS: -L../../source -lPasspR40
+#cgo CFLAGS: -I../../source
 #include "PasspR.h"
 //typedef void (*_SetCallbackFuncFunc)(ResultReceivingFunc f1, NotifyFunc f2 );
-//typedef long (*ExecuteCommandFunc)(long, void*, void*);
+//typedef long (*_ExecuteCommandFunc)(long, void*, void*);
 long (_ExecuteCommand)(long command, void *params, void *result );
-extern _ExecuteCommand() ExecuteCommand;
+//extern _ExecuteCommand() ExecuteCommand;
 */
 import "C"
 import (
-	"unsafe"
-
 	sl "github.com/Averianov/cisystemlog"
 )
 
 func CSetCallbackFunc() {
-	//var command C.long = 42
-	var command int32 = 42
-	var params, result unsafe.Pointer
+	// //var command C.long = 42
+	// var command int32 = 42
+	// var params, result unsafe.Pointer
 
-	// ecf := C.ExecuteCommand
-	// sl.L.Warning("ExecuteCommand: %v", ecf)
+	// // ecf := C.ExecuteCommand
+	// // sl.L.Warning("ExecuteCommand: %v", ecf)
 
-	//ecf2 := ecf(int32, unsafe.Pointer, unsafe.Pointer)
-	res := C.ExecuteCommand(command, params, result)
-	// res := C.ExecuteCommand(command, params, result)
-	sl.L.Warning("ExecuteCommand: %v", res)
+	// //ecf2 := ecf(int32, unsafe.Pointer, unsafe.Pointer)
+	// res := C._ExecuteCommandFunc(command, params, result)
+	// // res := C.ExecuteCommand(command, params, result)
+	// sl.L.Warning("ExecuteCommand: %v", res)
 
 	//scbf *C._SetCallbackFuncFunc
 	//sl.L.Warning("CSetCallbackFunc: %v", res)

@@ -13,19 +13,22 @@ GOVET=$(GOCMD) vet
 GORUN=$(GOCMD) run
 
 compile:
-	#go get -u ./...
 	go mod tidy
-	go build -o ./regulaclient ./cmd
+	build.bat
+	go build -o ./regulaclient.exe ./cmd
 
-	#env GOOS=windows GOARCH=amd64 CGO_ENABLED='1' CC=x86_64-w64-mingw32-gcc go build -o ./regulaclient.exe ./cmd
-	#env GOOS=windows GOARCH=386 CC=i686-w64-mingw32-gcc go build -o ./regulaclient.exe ./cmd
+run: 
+	make compile
+	./regulaclient.exe
+#	go run cmd/main.go
+#	go run cmd/sharesms-launcher/main.go -debug-grpc=true
 
+other:	
+	#go get -u ./...
+	#go env GOOS=windows GOARCH=amd64 CGO_ENABLED='1' CC=x86_64-w64-mingw32-gcc
+	#go env GOOS=windows GOARCH=386 CC=i686-w64-mingw32-gcc
 	#GOOS=windows GOARCH=386 CGO_ENABLED=1 CC=i686-w64-mingw32-gcc go build -buildmode=c-shared -o main.dll main.go
 	#GOOS=windows GOARCH=amd64 CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc go build -buildmode=c-shared -o main.dll main.go
-
-run:
-#	go run cmd/sharesms-launcher/main.go -debug-grpc=true
-	go run cmd/main.go
 
 help:
 	@echo 'Usage: make <OPTIONS> ... <TARGETS>'

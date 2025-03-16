@@ -1,9 +1,7 @@
 package form
 
+import "C"
 import (
-	"regulaclient/pkg/usedll"
-	"unsafe"
-
 	"fyne.io/fyne"
 	"fyne.io/fyne/app"
 	"fyne.io/fyne/canvas"
@@ -60,10 +58,17 @@ func InitForm() (err error) {
 	w.Resize(fyne.NewSize(700, 400))
 
 	bConnect := widget.NewButton("Connect", func() {
-		//w.ConnectDevice()
-		var deviceCount int32
-		usedll.ExecuteCommand(usedll.RPRM_Command_Device_Count, 0, uintptr(unsafe.Pointer(&deviceCount)))
-		sl.L.Info("deviceCount: %v", deviceCount)
+		//var param any
+		var result any
+
+		//param = -1
+		//usedll.AIExecuteCommand(usedll.RPRM_Command_Device_Connect, unsafe.Pointer(&param), unsafe.Pointer(&result))
+		sl.L.Info("deviceCount: %v", result)
+
+		//param = 0
+		var activeIndex any //usedll.RPRM_ResultType
+		//usedll.AIExecuteCommand(usedll.RPRM_Command_Device_ActiveIndex, unsafe.Pointer(&param), unsafe.Pointer(&activeIndex))
+		sl.L.Info("activeIndex: %v", activeIndex)
 	})
 	bConnect.Resize(fyne.Size{Width: 150, Height: 10})
 	bDisconnect := widget.NewButton("Disconnect", func() {

@@ -1,9 +1,9 @@
 package usedll
 
 /*
-//#cgo LDFLAGS: -L. -lPasspR40
-//#cgo CFLAGS: -I.
-#include <PasspR.h>
+//#cgo LDFLAGS: -L../../lib -lPasspR40
+#cgo CFLAGS: -I../lib
+#include "PasspR.h"
 // extern void (__stdcall *ResultReceivingFunc)(TResultContainer *result, uint32_t *PostAction, uint32_t *PostActionParameter );
 // extern void (__stdcall *NotifyFunc)(intptr_t code, intptr_t value);
 // extern void (*_SetCallbackFuncFunc)(MyResultReceivingFunc f1, MyNotifyFunc f2);

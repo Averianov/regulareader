@@ -1,17 +1,16 @@
-2025.03.13_15:03:01 [90m[47mexport.go:28[0m	[96mINFO[0m SetCallbackFunc: The operation completed successfully.
-2025.03.13_15:03:01 [90m[47mexport.go:33[0m	[37mDEBG[0m SetCallbackFunc: 0, 824634015864
-2025.03.13_15:03:01 [90m[47musedll.go:54[0m	[37mDEBG[0m GetHWND: The operation completed successfully.
-2025.03.13_15:03:01 [90m[47musedll.go:57[0m	[96mINFO[0m GetHWND: 198010
-2025.03.13_15:03:02 [90m[47musedll.go:65[0m	[96mINFO[0m InitializeDevice: The system cannot find the file specified.
-2025.03.13_15:03:02 [90m[47musedll.go:70[0m	[37mDEBG[0m InitializeDevice: 0, 586166565456
-2025.03.13_15:03:02 [90m[47musedll.go:109[0m	[96mINFO[0m GetVersion: The operation completed successfully.
-2025.03.13_15:03:02 [90m[47musedll.go:114[0m	[37mDEBG[0m GetVersion: 458757, 586166565440
-2025.03.13_15:03:02 [90m[47musedll.go:83[0m	[96mINFO[0m ExecuteCommand 1: The operation completed successfully.
-2025.03.13_15:03:02 [90m[47musedll.go:88[0m	[37mDEBG[0m executeCommand 1: 26, 586166563488
-2025.03.13_15:03:02 [90m[47mmain.go:60[0m	[96mINFO[0m deviceCount: 0
-2025.03.13_15:03:02 [90m[47musedll.go:83[0m	[96mINFO[0m ExecuteCommand 5: The operation completed successfully.
-2025.03.13_15:03:02 [90m[47musedll.go:88[0m	[37mDEBG[0m executeCommand 5: 26, 586166563488
-2025.03.13_15:03:02 [90m[47musedll.go:83[0m	[96mINFO[0m ExecuteCommand 5: The operation completed successfully.
-2025.03.13_15:03:02 [90m[47musedll.go:88[0m	[37mDEBG[0m executeCommand 5: 26, 586166563488
-2025.03.13_15:03:03 [90m[47musedll.go:96[0m	[96mINFO[0m FreeDevice: The system could not find the environment option that was entered.
-2025.03.13_15:03:03 [90m[47musedll.go:101[0m	[37mDEBG[0m FreeDevice: 0, 586166565456
+2025.03.17_00:20:12 [90m[47mai.go:88[0m	[37mDEBG[0m Устанавливаем колбэки...
+2025.03.17_00:20:12 [90m[47mai.go:98[0m	[37mDEBG[0m Инициализация библиотеки...
+2025.03.17_00:20:13 [90m[47mai.go:106[0m	[96mINFO[0m AIInitialize: NoError
+2025.03.17_00:20:13 [90m[47mai.go:147[0m	[37mDEBG[0m Получаем версию библиотеки...
+2025.03.17_00:20:13 [90m[47mai.go:150[0m	[96mINFO[0m Версия библиотеки: 458757
+2025.03.17_00:20:13 [90m[47mai.go:124[0m	[37mDEBG[0m Выполняем команду Device_RefreshList
+2025.03.17_00:20:13 [90m[47mai.go:56[0m	[93mWARN[0m Начата инициализации устройств
+2025.03.17_00:20:13 [90m[47mai.go:58[0m	[93mWARN[0m Инициализация устройств завершена
+2025.03.17_00:20:13 [90m[47mai.go:142[0m	[96mINFO[0m AIExecuteCommand Device_RefreshList: NoError []
+2025.03.17_00:20:13 [90m[47mmain.go:46[0m	[96mINFO[0m RefreshList: []
+2025.03.17_00:20:13 [90m[47mai.go:124[0m	[37mDEBG[0m Выполняем команду Device_Count
+2025.03.17_00:20:13 [90m[47mai.go:142[0m	[96mINFO[0m AIExecuteCommand Device_Count: NoError []
+2025.03.17_00:20:13 [90m[47mmain.go:58[0m	[96mINFO[0m deviceCount: []
+2025.03.17_00:20:18 [90m[47mai.go:124[0m	[37mDEBG[0m Выполняем команду Device_Connect
+2025.03.17_00:20:18 [90m[47mai.go:135[0m	[91mALRT[0m AIExecuteCommand Device_Connect: InvalidParameter
+2025.03.17_00:20:18 [90m[47mmain.go:66[0m	[91mALRT[0m AIExecuteCommand Device_Connect: InvalidParameter

@@ -1,8 +1,8 @@
 package usedll
 
 // /*
-// #cgo LDFLAGS: -L. -lPasspR40
-// #cgo CFLAGS: -I./lib
+// #cgo LDFLAGS: -L../lib -lPasspR40
+// #cgo CFLAGS: -I../lib
 
 // #include "PasspR.h"
 // */

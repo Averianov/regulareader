@@ -1,17 +1,14 @@
 package main
 
+import "C"
 import (
+	"regulaclient/pkg/form"
 	"regulaclient/pkg/usedll"
+	"time"
 	"unsafe"
 
 	sl "github.com/Averianov/cisystemlog"
 )
-
-// type scan struct {
-// 	ir    *canvas.Image
-// 	wight *canvas.Image
-// 	uv    *canvas.Image
-// }
 
 func init() {
 	sl.CreateLogs(4, 5) // ##########################################
@@ -21,38 +18,82 @@ func init() {
 // "C:\Program Files\Regula\Document Reader SDK\READERDEMO" /unregserver
 // "C:\Program Files\Regula\Document Reader SDK\READERDEMO" /regserver
 func main() {
+	// WORK OLE EXPIRIENCE
+	// conn, err := oleapi.InitializeOleConnection()
+	// if err != nil {
+	// 	sl.L.Alert("InitializeOleConnection: %v", err)
+	// }
+	// defer conn.Uninitialize()
+	// oleapi.DispatchOle(conn)
 
-	// // var err error
+	var err error
+	var param any
 
-	// // connection := &ole.Connection{}
+	usedll.AISetCallbackFunc()
+	usedll.AIInitialize()
+	usedll.AILibraryVersion()
 
-	// // err = connection.Initialize()
-	// // if err != nil {
-	// // 	return
-	// // }
-	// // defer connection.Uninitialize()
+	var anyResult any
+	param = 0
+	anyResult, err = usedll.AIExecuteCommand(int32(usedll.RPRM_Command_Device_RefreshList), unsafe.Pointer(&param))
+	if err != nil {
+		return
+	}
+	if anyResult == nil {
+		sl.L.Info("RefreshList is nil")
+	} else {
+		sl.L.Info("RefreshList: %v", anyResult)
+	}
 
-	// // err = connection.Create("298595A7-A986-404B-9642-D0A37F2EE681")
-	// // if err != nil {
-	// // 	sl.L.Info("%v", err)
-	// // 	if err.(*ole.OleError).Code() == ole.CO_E_CLASSSTRING {
-	// // 		return
-	// // 	}
-	// // }
-	// // defer connection.Release()
+	var deviceCount any //usedll.RPRM_ResultType
+	deviceCount, err = usedll.AIExecuteCommand(int32(usedll.RPRM_Command_Device_Count), unsafe.Pointer(&param))
+	if err != nil {
+		return
+	}
+	if deviceCount == nil {
+		sl.L.Alert("deviceCount is nil")
+	} else {
+		sl.L.Info("deviceCount: %v", deviceCount)
+	}
 
-	// // dispatch, err := connection.Dispatch()
-	// // if err != nil {
-	// // 	sl.L.Info("%v", err)
-	// // 	return
-	// // }
-	// // defer dispatch.Release()
+	time.Sleep(time.Second * 5)
 
-	// // oleapi.InitializeDeviceOle()
-	// // time.Sleep(time.Minute)
+	param = -1
+	anyResult, err = usedll.AIExecuteCommand(int32(usedll.RPRM_Command_Device_Connect), unsafe.Pointer(&param))
+	if err != nil {
+		return
+	}
+	if anyResult == nil {
+		sl.L.Info("Device_Connect is nil")
+	} else {
+		sl.L.Info("Device_Connect: %v", anyResult)
+	}
 
-	usedll.CSetCallbackFunc()
-	//usedll.SetCallbackFunc(usedll.MyResultReceivingFunc, usedll.MyNotifyFunc)
+	for idx := range usedll.Devices {
+		var param any = idx
+		var properties any
+		properties, err = usedll.AIExecuteCommand(int32(usedll.RPRM_Command_Device_Features), unsafe.Pointer(&param))
+		if err != nil {
+			continue
+		}
+		if properties == nil {
+			sl.L.Alert("properties is nil")
+			continue
+		}
+		sl.L.Info("properties: %v", properties)
+
+		//var deviceProperties usedll.TRegulaDeviceProperties
+		if deviceProperties, ok := (properties).(usedll.TRegulaDeviceProperties); ok {
+			usedll.Devices[idx] = deviceProperties
+		} else {
+			sl.L.Alert("failed to cast properties to TRegulaDeviceProperties")
+			continue
+		}
+
+	} /**/
+
+	/*usedll.LoadDLL()
+	usedll.SetCallbackFunc(usedll.MyResultReceivingFunc, usedll.MyNotifyFunc)
 	usedll.InitializeDevice()
 	usedll.GetVersion()
 
@@ -60,19 +101,10 @@ func main() {
 	usedll.ExecuteCommand(usedll.RPRM_Command_Device_Count, 0, uintptr(unsafe.Pointer(&deviceCount)))
 	sl.L.Info("deviceCount: %v", deviceCount)
 
-	// var deviceCount int32
-	// usedll.ExecuteCommand(&usedll.RPRM_Command_Device_RefreshList, 0, uintptr(unsafe.Pointer(&deviceCount)))
-	// sl.L.Info("deviceCount: %v", deviceCount)
-
-	// var deviceCount int32 // TRegulaDeviceProperties
-	// usedll.ExecuteCommand(&usedll.RPRM_Command_Device_Features, 0, uintptr(unsafe.Pointer(&deviceCount)))
-	// sl.L.Info("deviceCount: %v", deviceCount)
-
-	//var deviceCount int32 = -1
+	deviceCount = -1
 	usedll.ExecuteCommand(usedll.RPRM_Command_Device_Connect, uintptr(unsafe.Pointer(&deviceCount)), 0)
-	usedll.ExecuteCommand(usedll.RPRM_Command_Device_Connect, 0, 0)
 
-	defer usedll.FreeDevice()
+	defer usedll.FreeDevice()/**/
 
-	// form.InitForm()
+	form.InitForm()
 }
